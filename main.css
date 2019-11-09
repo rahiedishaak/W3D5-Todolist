@@ -94,7 +94,7 @@ h1 {
     align-items: center;
 }
 
-.task input[type=checkbox] {
+.task input[type='checkbox'] {
     margin-right: 1rem;
 }
 

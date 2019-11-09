@@ -19,34 +19,18 @@ const renderToDOM = async () => {
             // create checkbox for task
             const checkbox = document.createElement('input');
             checkbox.setAttribute('type', 'checkbox');
+            checkbox.setAttribute('id', `complete-task${taskIDs[index]}`);
             taskDiv.appendChild(checkbox);
 
-            // add event listener to checkbox, to set task to done/to do
-            checkbox.addEventListener('change', async function(event) {
-                let taskUpdated;
-                if (event.target.checked) {
-                    taskUpdated = { body: task.body, done: true };
-                } else {
-                    taskUpdated = { body: task.body, done: false };
-                }
-                const taskUpdatedJSON = JSON.stringify(taskUpdated);
-                await updateTask(taskUpdatedJSON, taskIDs[index]);
-                renderToDOM();
-            });
-
-            // create paragraph for task body
-            const taskText = document.createElement('p');
+            // create label for task body
+            const taskText = document.createElement('label');
             taskText.textContent = task.body;
+            taskText.setAttribute('for', `complete-task${taskIDs[index]}`);
             taskDiv.appendChild(taskText);
 
-            // add event listener to paragraph, to set task to done/to do
-            taskText.addEventListener('click', async function(event) {
-                let taskUpdated;
-                if (task.done) {
-                    taskUpdated = { body: task.body, done: false };
-                } else {
-                    taskUpdated = { body: task.body, done: true };
-                }
+            // add event listener to checkbox and label, to set task to done/to do
+            checkbox.addEventListener('change', async function(event) {
+                const taskUpdated = { body: task.body, done: event.target.checked };
                 const taskUpdatedJSON = JSON.stringify(taskUpdated);
                 await updateTask(taskUpdatedJSON, taskIDs[index]);
                 renderToDOM();
